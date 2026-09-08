@@ -1,2 +1,2 @@
 # ezyweb
-Focuses on developing high end financial website like Investing.com but using interactive user experience like Apple.com to test the conversions on set parameters.
+Focuses on developing high end financial monetization funnel using interactive user experience and experimental methods to test the conversions on set parameters.
