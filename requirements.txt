@@ -1,0 +1,18 @@
+# Web framework
+Flask>=3.0,<4
+
+# Database
+SQLAlchemy>=2.0,<3
+psycopg2-binary>=2.9,<3
+
+# Telegram bots
+python-telegram-bot[job-queue]>=21.6,<22
+
+# Environment
+python-dotenv>=1.0,<2
+
+# HTTP requests (market data, webhooks)
+requests>=2.32,<3
+
+# Server
+gunicorn>=23.0,<24

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ firm.name if firm else 'Not Found' }} | PropRank{% endblock %}
+
+{% block content %}
+{% if not_found %}
+  <h1>Firm not found</h1>
+  <p class="subtitle">We couldn't find "{{ slug }}". Try searching.</p>
+  <a class="btn" href="/scoutops/proprank">Back to directory</a>
+{% else %}
+  <div class="card">
+    <h1>{{ firm.name }}</h1>
+    <p class="subtitle">Trust score: <span class="score">{{ firm.trust_score }}/100</span></p>
+    <pre style="white-space:pre-wrap; font-family:inherit; line-height:1.8;">{{ card | safe }}</pre>
+    <br>
+    <a class="btn" href="{{ firm.affiliate_url or affiliate_url }}" target="_blank">{{ firm.affiliate_label or affiliate_label }}</a>
+    <a class="btn" href="/scoutops/proprank" style="background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--text);">Back</a>
+  </div>
+{% endif %}
+{% endblock %}

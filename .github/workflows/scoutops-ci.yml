@@ -1,0 +1,35 @@
+name: ScoutOps CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test-proprank:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+
+      - name: Run PropRank tests
+        run: |
+          export PYTHONPATH=.
+          export DATABASE_URL=sqlite:///./test_proprank.db
+          python suites/scoutops/proprank/seed.py
+          pytest suites/scoutops/proprank/tests/ -q
+
+      - name: Syntax check shared + PropRank modules
+        run: |
+          python -m py_compile shared/*.py
+          python -m py_compile suites/scoutops/proprank/*.py

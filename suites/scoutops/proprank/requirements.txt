@@ -1,0 +1,7 @@
+Flask>=3.0,<4
+SQLAlchemy>=2.0,<3
+psycopg2-binary>=2.9,<3
+python-telegram-bot[job-queue]>=21.6,<22
+python-dotenv>=1.0,<2
+requests>=2.32,<3
+gunicorn>=23.0,<24

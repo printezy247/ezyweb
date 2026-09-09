@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}EzyWeb{% endblock %}</title>
+  <style>
+    :root {
+      --void: #030510;
+      --surface: rgba(255,255,255,0.04);
+      --text: #f0f4ff;
+      --muted: #94a3b8;
+      --gold: #f59e0b;
+      --cyan: #22d3ee;
+      --rose: #f472b6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--void);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    header {
+      padding: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header a { color: var(--text); text-decoration: none; font-weight: 800; font-size: 1.2rem; }
+    nav a { color: var(--muted); text-decoration: none; margin-left: 18px; font-size: 0.9rem; }
+    nav a:hover { color: var(--gold); }
+    main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+    h1 { font-size: 2rem; margin-bottom: 8px; }
+    .subtitle { color: var(--muted); margin-bottom: 32px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), #fbbf24);
+      color: #1a0f00;
+      text-decoration: none;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+    footer { text-align: center; padding: 40px 24px; color: var(--muted); font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    th { color: var(--gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(34,211,238,0.1);
+      color: var(--cyan);
+      font-size: 0.75rem;
+      margin-right: 6px;
+    }
+    .score { font-weight: 800; color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">🚀 EzyWeb</a>
+    <nav>
+      <a href="/scoutops/proprank">ScoutOps</a>
+      <a href="/aurumops">AurumOps</a>
+      <a href="/shieldops">ShieldOps</a>
+      <a href="/relayops">RelayOps</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    Educational research only. Not financial advice.
+  </footer>
+</body>
+</html>

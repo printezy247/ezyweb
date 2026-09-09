@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}PropRank — Prop Firm Directory | ScoutOps{% endblock %}
+
+{% block content %}
+<div style="text-align:center; margin-bottom: 40px;">
+  <h1>💼 PropRank</h1>
+  <p class="subtitle">Compare prop firms. Find the best challenge. No subscription.</p>
+  <a class="btn" href="?allows_ea=1">EA Allowed</a>
+  <a class="btn" href="?allows_news=1">News Trading OK</a>
+  <a class="btn" href="?max_fee=100">Under $100</a>
+</div>
+
+<form method="get" action="/scoutops/proprank/search" style="margin-bottom: 32px; display:flex; gap:12px;">
+  <input type="text" name="q" placeholder="Search firm..." value="{{ search_query or '' }}"
+    style="flex:1; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:#0b1020; color:#f0f4ff;">
+  <button type="submit" class="btn" style="border:none; cursor:pointer;">Search</button>
+</form>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Firm</th>
+        <th>Fee</th>
+        <th>Size</th>
+        <th>Trust</th>
+        <th>Payout</th>
+        <th>Restrictions</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for firm in firms %}
+      <tr>
+        <td>
+          <strong>{{ firm.name }}</strong>
+          {% if firm.is_sponsored %}<span class="tag">Sponsored</span>{% endif %}
+        </td>
+        <td>${{ "{:,}".format(firm.challenge_fee_usd) if firm.challenge_fee_usd else '—' }}</td>
+        <td>${{ "{:,}".format(firm.account_size_usd) if firm.account_size_usd else '—' }}</td>
+        <td class="score">{{ firm.trust_score }}/100</td>
+        <td>{{ firm.payout_split_pct|int if firm.payout_split_pct else '—' }}%</td>
+        <td>
+          {% if not firm.allows_overnight %}<span class="tag">No overnight</span>{% endif %}
+          {% if not firm.allows_news_trading %}<span class="tag">No news</span>{% endif %}
+          {% if not firm.allows_ea_bots %}<span class="tag">No EAs</span>{% endif %}
+          {% if firm.allows_overnight and firm.allows_news_trading and firm.allows_ea_bots %}<span style="color:#22d3ee">None</span>{% endif %}
+        </td>
+        <td><a class="btn" href="/scoutops/proprank/firm/{{ firm.slug }}">Details</a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" style="text-align:center; color:#64748b;">No firms found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="card" style="text-align:center;">
+  <p>Want your firm listed? <a href="mailto:hello@example.com" style="color:var(--gold);">Sponsor a listing</a></p>
+</div>
+{% endblock %}
