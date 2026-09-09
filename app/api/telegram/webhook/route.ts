@@ -614,6 +614,7 @@ export async function POST(request: NextRequest) {
     }
 
     const bot = getBot();
+    await bot.init();
     const update = await request.json();
     await bot.handleUpdate(update);
     return NextResponse.json({ ok: true });
