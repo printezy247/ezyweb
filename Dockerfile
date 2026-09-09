@@ -1,3 +1,4 @@
+# EzyWeb PropRank - Railway deploy trigger
 FROM node:22-alpine AS base
 
 # Install dependencies
