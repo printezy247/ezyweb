@@ -1,0 +1,192 @@
+{
+  "id": "9c50cf5c-1a54-42fa-83e1-a48e9be46218",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.prop_firms": {
+      "name": "prop_firms",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar(80)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "logo_url": {
+          "name": "logo_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "challenge_fee_usd": {
+          "name": "challenge_fee_usd",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "account_size_usd": {
+          "name": "account_size_usd",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "max_daily_drawdown_pct": {
+          "name": "max_daily_drawdown_pct",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "max_total_drawdown_pct": {
+          "name": "max_total_drawdown_pct",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profit_target_pct": {
+          "name": "profit_target_pct",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "min_trading_days": {
+          "name": "min_trading_days",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "allows_overnight": {
+          "name": "allows_overnight",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "allows_news_trading": {
+          "name": "allows_news_trading",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "allows_ea_bots": {
+          "name": "allows_ea_bots",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "payout_split_pct": {
+          "name": "payout_split_pct",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "first_payout_days": {
+          "name": "first_payout_days",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "trust_score": {
+          "name": "trust_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 70
+        },
+        "country": {
+          "name": "country",
+          "type": "varchar(80)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "regulation_note": {
+          "name": "regulation_note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "affiliate_url": {
+          "name": "affiliate_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "affiliate_label": {
+          "name": "affiliate_label",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_sponsored": {
+          "name": "is_sponsored",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "prop_firms_slug_unique": {
+          "name": "prop_firms_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

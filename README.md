@@ -110,7 +110,7 @@
 <a href="#build-1"><img src="https://img.shields.io/badge/🥇_PropRank-BUILT-22d3ee?style=for-the-badge&labelColor=0f172a&color=0ea5e9"/></a>
 <a href="#brands"><img src="https://img.shields.io/badge/4_Brands-9_Products-f59e0b?style=for-the-badge&labelColor=0f172a&color=f59e0b"/></a>
 <a href="#deploy"><img src="https://img.shields.io/badge/Deploy-Railway_+_PostgreSQL-00ffa3?style=for-the-badge&labelColor=0f172a&color=10b981"/></a>
-<a href="#monetize"><img src="https://img.shields.io/badge/Monetize-No_subscriptions-f472b6?style=for-the-badge&labelColor=0f172a&color=ec4899"/></a>
+<a href="#monetize"><img src="https://img.shields.io/badge/Monetize-No_subscriptions-f472b6?style=for-the-badge&labelColor=0f172a&color=ec4999"/></a>
 
 <br><br>
 
@@ -122,32 +122,11 @@
 
 **EzyWeb** builds **free trading tools** for traders burned by subscriptions, scams, and opaque markets.
 
-<div align="center">
-
-<svg width="700" height="80" viewBox="0 0 700 80" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="missionBar" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f59e0b"/>
-      <stop offset="50%" stop-color="#22d3ee"/>
-      <stop offset="100%" stop-color="#f472b6"/>
-    </linearGradient>
-  </defs>
-  <rect x="50" y="35" width="600" height="4" rx="2" fill="url(#missionBar)" opacity="0.4">
-    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite"/>
-  </rect>
-  <text x="350" y="25" text-anchor="middle" fill="#e2e8f0" font-family="Segoe UI" font-weight="700" font-size="14" letter-spacing="2">WHAT WE BUILD</text>
-  <circle cx="100" cy="37" r="6" fill="#f59e0b"><animate attributeName="r" values="6;9;6" dur="2s" repeatCount="indefinite"/></circle>
-  <circle cx="250" cy="37" r="6" fill="#22d3ee"><animate attributeName="r" values="6;9;6" dur="2s" begin="0.5s" repeatCount="indefinite"/></circle>
-  <circle cx="400" cy="37" r="6" fill="#f472b6"><animate attributeName="r" values="6;9;6" dur="2s" begin="1s" repeatCount="indefinite"/></circle>
-  <circle cx="550" cy="37" r="6" fill="#a78bfa"><animate attributeName="r" values="6;9;6" dur="2s" begin="1.5s" repeatCount="indefinite"/></circle>
-</svg>
-
-</div>
-
 - ⚡ **Telegram bots + web dashboards** for every product
 - 📊 **Free live data & free APIs only**
 - 💰 **No paid subscriptions** — monetized through affiliate CPA, Telegram Stars, ads, and sponsored listings
 - 🪖 **4 soldier-themed brands, 9 products**
+- ⚙️ **Built with Next.js 15, Tailwind 4, Drizzle ORM, PostgreSQL** (same stack pattern as `website_sam`)
 
 > *“Build trust first. Monetize second.”*
 
@@ -257,104 +236,196 @@
 ### Features
 
 **Telegram bot commands:**
+- `/start` — welcome + command list
 - `/top` — top ranked prop firms
 - `/firm NAME` — detailed firm card with affiliate CTA
 - `/search TEXT` — search firms
 - `/compare A vs B` — side-by-side comparison
 
 **Web dashboard:**
+- `/` — EzyWeb home
 - `/scoutops/proprank` — directory with filters
-- `/scoutops/proprank/firm/<slug>` — detail page
-- `/scoutops/proprank/search?q=...` — search
+- `/scoutops/proprank/<slug>` — detail page
+- `/api/propfirms` — JSON API
+- `/api/telegram/webhook` — Telegram bot webhook
 
-### Code location
+### Tech stack
 
-```
-suites/scoutops/proprank/
-├── bot.py              # Telegram bot
-├── web.py              # Flask dashboard
-├── models.py           # SQLAlchemy models
-├── services.py         # Business logic
-├── seed.py             # Sample prop-firm data
-├── tests/              # Pytest suite
-├── templates/proprank/ # Jinja2 templates
-├── Dockerfile          # Railway deploy
-├── railway.json        # Railway config
-└── DEPLOY.md           # Step-by-step deploy
-```
-
-### Local run
-
-```bash
-# 1. Install deps
-pip install -r requirements.txt
-
-# 2. Copy env and edit
-cp .env.example .env        # Linux/Mac
-# Windows: copy .env.example .env
-
-# 3. Seed the database
-# Windows PowerShell:
-$env:PYTHONPATH="."
-$env:DATABASE_URL="sqlite:///./proprank.db"
-python suites/scoutops/proprank/seed.py
-
-# 4. Run web dashboard
-$env:FLASK_APP="suites.scoutops.proprank.web:create_app()"
-python -m flask run --port 5000
-
-# 5. Run Telegram bot (another terminal)
-$env:PYTHONPATH="."
-$env:DATABASE_URL="sqlite:///./proprank.db"
-python suites/scoutops/proprank/bot.py
-```
-
-### Tests
-
-```bash
-# Windows PowerShell:
-$env:PYTHONPATH="."
-$env:DATABASE_URL="sqlite:///./test_proprank.db"
-python -m pytest suites/scoutops/proprank/tests/test_proprank.py -q
-```
+- **Framework:** Next.js 15 (App Router) + React 19 + TypeScript
+- **Styling:** Tailwind CSS 4 with custom dark/gold theme
+- **Database:** PostgreSQL (production) / PGlite (local dev) via Drizzle ORM
+- **Bot:** grammY webhook
+- **Deploy:** Railway (Docker)
 
 ---
 
-<a name="deploy"></a>
-## 🚀 Deploy PropRank on Railway
+## 🚀 Quick Start (For Newbies)
 
-<div align="center">
+Follow these steps exactly. Each command goes into **PowerShell** (search "PowerShell" on Windows).
 
-<svg width="600" height="60" viewBox="0 0 600 60" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="deployGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f59e0b"/>
-      <stop offset="100%" stop-color="#22d3ee"/>
-    </linearGradient>
-  </defs>
-  <rect x="20" y="15" width="560" height="30" rx="15" fill="none" stroke="url(#deployGrad)" stroke-width="2" stroke-dasharray="8 4">
-    <animate attributeName="stroke-dashoffset" from="24" to="0" dur="1s" repeatCount="indefinite"/>
-  </rect>
-  <text x="300" y="36" text-anchor="middle" fill="#e2e8f0" font-family="Segoe UI" font-weight="700" font-size="13" letter-spacing="2">DEPLOY IN 6 STEPS</text>
-</svg>
+### Step 0 — Install the tools
 
-</div>
+1. **Install Node.js 22** from https://nodejs.org/
+   - Download the LTS version
+   - Run the installer, click Next until done
+   - Check "Automatically install necessary tools" if asked
 
-1. Go to https://railway.app and sign in with GitHub.
-2. **New Project → Deploy from GitHub repo** → choose `printezy247/ezyweb`.
-3. In the service **Settings → Root Directory**, set: `suites/scoutops/proprank`.
-4. Add a **PostgreSQL** database from Railway's dashboard.
-5. Add environment variables:
-   - `PROPRANK_BOT_TOKEN` = your @BotFather token
-   - `SECRET_KEY` = any random string
-   - `PROPRANK_AFFILIATE_URL` = your prop-firm referral link
-   - `SCOUTOPS_WEB_URL` = your Railway public URL
-6. Deploy. After deploy, run seed in Railway console:
-   ```bash
-   python suites/scoutops/proprank/seed.py
+2. **Install Git** from https://git-scm.com/download/win
+   - Use default options
+
+3. **Install VS Code** (optional but helpful) from https://code.visualstudio.com/
+
+### Step 1 — Download the code
+
+Open PowerShell and run:
+
+```powershell
+cd C:\Users\%USERNAME%\Documents
+git clone https://github.com/printezy247/ezyweb.git
+cd ezyweb
+```
+
+### Step 2 — Install project dependencies
+
+```powershell
+npm install
+```
+
+> If Windows says "running scripts is disabled", run this instead:
+> ```powershell
+> powershell -ExecutionPolicy Bypass -Command "npm install"
+> ```
+
+### Step 3 — Create your environment file
+
+```powershell
+copy .env.example .env.local
+```
+
+Open `.env.local` in Notepad and fill in:
+
+```env
+# For local dev, you can use PGlite (no PostgreSQL install needed)
+DATABASE_URL=pglite://./tmp/ezyweb.db
+
+# Your public site URL
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# Any random string
+SECRET_KEY=change-me-later-12345
+
+# From @BotFather (see Step 4)
+TELEGRAM_BOT_TOKEN=your-bot-token-here
+
+# Any random string for webhook security
+TELEGRAM_WEBHOOK_SECRET=my-secret-token-123
+
+# Your prop-firm affiliate link
+PROPRANK_AFFILIATE_URL=https://your-propfirm-ref-link
+```
+
+### Step 4 — Create your Telegram bot
+
+1. Open Telegram and search for **@BotFather**
+2. Send `/newbot`
+3. Name it `PropRank`
+4. Choose a username like `your_proprank_bot`
+5. Copy the token (looks like `123456789:ABC...`)
+6. Paste it into `.env.local` as `TELEGRAM_BOT_TOKEN`
+
+### Step 5 — Create the local database
+
+```powershell
+mkdir tmp
+$env:DATABASE_URL="pglite://./tmp/ezyweb.db"
+npm run db:setup
+```
+
+You should see:
+```
+Migrations completed.
+Seeded 5 prop firms.
+```
+
+### Step 6 — Run the website locally
+
+```powershell
+$env:DATABASE_URL="pglite://./tmp/ezyweb.db"
+$env:TELEGRAM_BOT_TOKEN="your-bot-token-here"
+$env:NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+npm run dev
+```
+
+Open your browser:
+- http://localhost:3000 — home page
+- http://localhost:3000/scoutops/proprank — PropRank directory
+
+To stop the server, press `Ctrl + C` in PowerShell.
+
+---
+
+## 🤖 Test the Telegram Bot Locally
+
+The bot needs a public URL for Telegram webhooks. For local testing, use **ngrok**:
+
+1. Install ngrok from https://ngrok.com/download
+2. Sign up free and copy your authtoken
+3. In a new PowerShell window, run:
+   ```powershell
+   ngrok authtoken YOUR_NGROK_TOKEN
+   ngrok http 3000
+   ```
+4. ngrok gives you a URL like `https://abc123.ngrok.io`
+5. In another PowerShell window, set the webhook:
+   ```powershell
+   curl "https://api.telegram.org/botYOUR_BOT_TOKEN/setWebhook" `
+     -d url="https://abc123.ngrok.io/api/telegram/webhook" `
+     -d secret_token="my-secret-token-123"
+   ```
+6. Message your bot in Telegram:
+   ```
+   /start
+   /top
+   /firm ftmo
+   /compare ftmo vs fundednext
    ```
 
-Full guide: [`suites/scoutops/proprank/DEPLOY.md`](./suites/scoutops/proprank/DEPLOY.md)
+---
+
+## ☁️ Deploy to Railway (Go Live)
+
+### What you need before deploying
+
+| Variable | Where to get it |
+|---|---|
+| `TELEGRAM_BOT_TOKEN` | @BotFather |
+| `TELEGRAM_WEBHOOK_SECRET` | Make up any random string |
+| `NEXT_PUBLIC_SITE_URL` | Your Railway public URL (appears after first deploy) |
+| `SECRET_KEY` | Make up any random string |
+| `PROPRANK_AFFILIATE_URL` | Your prop-firm referral link |
+| `DATABASE_URL` | Railway PostgreSQL (created below) |
+
+### Deploy steps
+
+1. Go to https://railway.app and sign in with GitHub.
+2. Click **New Project → Deploy from GitHub repo**.
+3. Select `printezy247/ezyweb`.
+4. Click **+ New → Database → PostgreSQL**.
+5. Click on your web service, then go to **Variables** tab.
+6. Add each variable from the table above.
+   - For `DATABASE_URL`, click **Add Reference** and choose your Postgres database.
+7. Click **Deploy**.
+8. After deploy, Railway shows your public URL (e.g. `https://ezyweb-production.up.railway.app`).
+9. Go back to Variables and set `NEXT_PUBLIC_SITE_URL` to that URL.
+10. Redeploy.
+11. Set the Telegram webhook (replace the URL and token):
+    ```powershell
+    curl "https://api.telegram.org/botYOUR_BOT_TOKEN/setWebhook" `
+      -d url="https://ezyweb-production.up.railway.app/api/telegram/webhook" `
+      -d secret_token="YOUR_TELEGRAM_WEBHOOK_SECRET"
+    ```
+
+Done! Your PropRank is live.
 
 ---
 
@@ -386,25 +457,36 @@ Full guide: [`suites/scoutops/proprank/DEPLOY.md`](./suites/scoutops/proprank/DE
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Project Structure
 
 ```
 ezyweb/
-├── shared/                 # Shared backend
-│   ├── config.py           # Env config
-│   ├── db.py               # SQLAlchemy + PostgreSQL/SQLite
-│   ├── telegram.py         # Telegram helpers
-│   ├── web.py              # Flask app factory
-│   └── templates/          # Base web templates
-├── suites/
-│   ├── aurumops/           # Gold products
-│   ├── shieldops/          # Risk/journal/portfolio
-│   ├── scoutops/           # Discovery (PropRank ✅)
-│   └── relayops/           # Signal infrastructure
-└── requirements.txt
+├── app/                    # Next.js App Router
+│   ├── api/
+│   │   ├── propfirms/      # JSON API
+│   │   └── telegram/
+│   │       └── webhook/    # Telegram bot webhook
+│   ├── scoutops/
+│   │   └── proprank/
+│   │       ├── page.tsx    # Directory page
+│   │       └── [slug]/
+│   │           └── page.tsx # Firm detail page
+│   ├── globals.css         # Tailwind theme
+│   ├── layout.tsx          # Root layout
+│   └── page.tsx            # Home page
+├── db/
+│   ├── index.ts            # DB connection (Postgres + PGlite)
+│   ├── migrate.ts          # Migration runner
+│   ├── schema.ts           # Drizzle schema
+│   └── seed.ts             # Sample data
+├── archive/                # Legacy Python code
+├── drizzle/                # Generated SQL migrations
+├── Dockerfile              # Railway deploy
+├── railway.json            # Railway config
+├── next.config.ts          # Next.js config
+├── tailwind.config.ts      # Tailwind config
+└── package.json
 ```
-
-Every product reuses `shared/` and gets its own Telegram bot + web dashboard.
 
 ---
 
