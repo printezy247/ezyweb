@@ -1,0 +1,12 @@
+app = "goldpulse-printezy"
+primary_region = "iad"
+
+[build]
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+[mounts]
+  source = "goldpulse_data"
+  destination = "/data"

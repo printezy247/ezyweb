@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="340" viewBox="0 0 880 340">
+  <defs>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset=".5" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fde68a"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- ambient glow -->
+  <circle cx="440" cy="165" r="160" fill="url(#glow)">
+    <animate attributeName="opacity" values=".45;.85;.45" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- holo grid floor -->
+  <g stroke="#22d3ee" stroke-width="1" opacity=".10">
+    <line x1="60" y1="308" x2="820" y2="308"/>
+    <line x1="130" y1="322" x2="750" y2="322"/>
+    <line x1="440" y1="296" x2="240" y2="330"/>
+    <line x1="440" y1="296" x2="640" y2="330"/>
+    <line x1="440" y1="296" x2="60" y2="322"/>
+    <line x1="440" y1="296" x2="820" y2="322"/>
+  </g>
+  <line x1="90" y1="315" x2="790" y2="315" stroke="#a78bfa" stroke-width="1.4" opacity=".35" stroke-dasharray="10 14">
+    <animate attributeName="stroke-dashoffset" from="48" to="0" dur="1.6s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- orbit ring -->
+  <ellipse cx="440" cy="150" rx="185" ry="30" fill="none" stroke="#a78bfa" stroke-width="1" opacity=".22" stroke-dasharray="4 10"/>
+  <g>
+    <animateTransform attributeName="transform" type="rotate" from="0 440 150" to="360 440 150" dur="12s" repeatCount="indefinite"/>
+    <circle cx="625" cy="150" r="5.5" fill="#22d3ee"/>
+    <circle cx="255" cy="150" r="4" fill="#f472b6"/>
+  </g>
+
+  <!-- 3D funnel layers -->
+  <g fill="#a78bfa" fill-opacity=".05" stroke="url(#neon)" stroke-width="3" filter="url(#soft)" stroke-dasharray="14 10">
+    <polygon points="280,84 600,84 556,122 324,122">
+      <animate attributeName="stroke-dashoffset" from="48" to="0" dur="1.8s" repeatCount="indefinite"/>
+    </polygon>
+    <ellipse cx="440" cy="84" rx="160" ry="16">
+      <animate attributeName="stroke-dashoffset" from="48" to="0" dur="1.8s" repeatCount="indefinite"/>
+    </ellipse>
+    <polygon points="348,144 532,144 500,178 380,178">
+      <animate attributeName="stroke-dashoffset" from="40" to="0" dur="1.5s" repeatCount="indefinite"/>
+    </polygon>
+    <ellipse cx="440" cy="144" rx="92" ry="10">
+      <animate attributeName="stroke-dashoffset" from="40" to="0" dur="1.5s" repeatCount="indefinite"/>
+    </ellipse>
+    <polygon points="404,198 476,198 458,236 422,236">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="1.2s" repeatCount="indefinite"/>
+    </polygon>
+    <ellipse cx="440" cy="198" rx="36" ry="5">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="1.2s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <!-- falling conversion particles -->
+  <g>
+    <circle r="3.6" fill="#22d3ee">
+      <animate attributeName="cx" values="372;440" dur="2.1s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="26;246" dur="2.1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.85;1" dur="2.1s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="3" fill="#a78bfa">
+      <animate attributeName="cx" values="508;440" begin="-0.7s" dur="2.1s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="26;246" begin="-0.7s" dur="2.1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.85;1" begin="-0.7s" dur="2.1s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.6" fill="#f472b6">
+      <animate attributeName="cx" values="420;440" begin="-1.2s" dur="1.9s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="26;246" begin="-1.2s" dur="1.9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.85;1" begin="-1.2s" dur="1.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="3.2" fill="#22d3ee">
+      <animate attributeName="cx" values="470;440" begin="-1.6s" dur="2.3s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="26;246" begin="-1.6s" dur="2.3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.85;1" begin="-1.6s" dur="2.3s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.4" fill="#fde68a">
+      <animate attributeName="cx" values="398;440" begin="-0.3s" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="26;246" begin="-0.3s" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.85;1" begin="-0.3s" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- payout coin -->
+  <circle cx="440" cy="272" r="42" fill="url(#glow)">
+    <animate attributeName="opacity" values=".4;.95;.4" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="440" cy="272" r="24" fill="url(#gold)" stroke="#f59e0b" stroke-width="2.5" filter="url(#soft)">
+    <animate attributeName="r" values="24;26;24" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <text x="440" y="281" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="26" fill="#7c2d12">$</text>
+
+  <!-- floating orbs -->
+  <g filter="url(#soft)">
+    <circle cx="118" cy="120" r="9" fill="#22d3ee" opacity=".55">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -14;0 0" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="762" cy="92" r="7" fill="#a78bfa" opacity=".55">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 12;0 0" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="706" cy="232" r="5" fill="#f472b6" opacity=".6">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -10;0 0" dur="7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="152" cy="238" r="6" fill="#fde68a" opacity=".5">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 10;0 0" dur="5.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- twinkles -->
+  <g fill="#e0f2fe">
+    <path d="M212 66 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z">
+      <animate attributeName="opacity" values="0;1;0" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M668 52 l2.4 6.4 6.4 2.4 -6.4 2.4 -2.4 6.4 -2.4 -6.4 -6.4 -2.4 6.4 -2.4 z">
+      <animate attributeName="opacity" values="0;1;0" begin="-1.4s" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
