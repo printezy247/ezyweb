@@ -12,6 +12,7 @@ build/
 
 # Data / state
 /data/
+**/data/
 *.db
 *.json.bak
 
