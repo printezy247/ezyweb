@@ -105,6 +105,35 @@ function getBot() {
 
   bot.command("start", async (ctx) => {
     await ensureUser(ctx);
+
+    if (ctx.match === "upgrade") {
+      const user = await ensureUser(ctx);
+      if (!user) return;
+      const keyboard: { text: string; callback_data: string }[][] = [];
+      PRICING.forEach((p) => {
+        keyboard.push([{ text: `${TIER_NAMES[p.tier]} — $${p.monthlyUsd}/mo`, callback_data: `upgrade:${p.tier}:monthly` }]);
+        keyboard.push([{ text: `${TIER_NAMES[p.tier]} — $${p.yearlyUsd}/yr`, callback_data: `upgrade:${p.tier}:yearly` }]);
+      });
+      keyboard.push([{ text: "🔓 Unlock FREE via HFM IB", callback_data: "hfm_unlock" }]);
+
+      await ctx.reply(
+        [
+          `${FUTURISTIC_HEADER}`,
+          `⚡ <b>Upgrade PropRank</b>`,
+          `${FUTURISTIC_HEADER}`,
+          ``,
+          `Pay with <b>Telegram Stars</b>, <b>Stripe</b> (card), or <b>USDT</b>.`,
+          ``,
+          formatUpgradeOptions(),
+        ].join("\n"),
+        {
+          parse_mode: "HTML",
+          reply_markup: { inline_keyboard: keyboard },
+        }
+      );
+      return;
+    }
+
     await ctx.reply(
       [
         `━━━━━━━━━━━━━━━━━━━━━━━━━`,

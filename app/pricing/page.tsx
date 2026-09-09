@@ -3,10 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { TIER_NAMES, TIER_DESCRIPTIONS, PRICING, FEATURES, type TierId } from "@/lib/tiers";
+import { useEffect } from "react";
 
 export default function PricingPage() {
   const [loading, setLoading] = useState<TierId | null>(null);
   const [interval, setInterval] = useState<"monthly" | "yearly">("monthly");
+  const [stripeAvailable, setStripeAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    fetch("/api/stripe/config")
+      .then((r) => r.json())
+      .then((d) => setStripeAvailable(Boolean(d.configured && d.pricesConfigured)))
+      .catch(() => setStripeAvailable(false));
+  }, []);
 
   const handleStripeCheckout = async (tier: TierId) => {
     setLoading(tier);
@@ -64,6 +73,13 @@ export default function PricingPage() {
           </div>
         </div>
 
+        {stripeAvailable === false && (
+          <div className="mb-8 text-center">
+            <p className="text-gold text-sm font-bold">Card payments coming soon</p>
+            <p className="text-text-dim text-xs mt-1">For now, upgrade through the Telegram bot using Stars or USDT.</p>
+          </div>
+        )}
+
         <div className="grid md:grid-cols-3 gap-6 mb-16">
           {PRICING.map((plan) => (
             <div
@@ -91,17 +107,30 @@ export default function PricingPage() {
                 )}
               </div>
 
-              <button
-                onClick={() => handleStripeCheckout(plan.tier)}
-                disabled={loading === plan.tier}
-                className={`w-full py-3 rounded-xl font-bold transition mb-3 ${
-                  plan.tier === "rambo"
-                    ? "bg-gold text-void hover:bg-gold-light"
-                    : "bg-cyan text-void hover:bg-cyan-dark"
-                } disabled:opacity-50`}
-              >
-                {loading === plan.tier ? "Loading..." : `Upgrade to ${plan.tier}`}
-              </button>
+              {stripeAvailable ? (
+                <button
+                  onClick={() => handleStripeCheckout(plan.tier)}
+                  disabled={loading === plan.tier}
+                  className={`w-full py-3 rounded-xl font-bold transition mb-3 ${
+                    plan.tier === "rambo"
+                      ? "bg-gold text-void hover:bg-gold-light"
+                      : "bg-cyan text-void hover:bg-cyan-dark"
+                  } disabled:opacity-50`}
+                >
+                  {loading === plan.tier ? "Loading..." : `Upgrade to ${plan.tier}`}
+                </button>
+              ) : (
+                <a
+                  href={`https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME || "samproprank_bot"}?start=upgrade`}
+                  className={`block w-full py-3 rounded-xl font-bold transition mb-3 text-center ${
+                    plan.tier === "rambo"
+                      ? "bg-gold text-void hover:bg-gold-light"
+                      : "bg-cyan text-void hover:bg-cyan-dark"
+                  }`}
+                >
+                  Upgrade via Telegram
+                </a>
+              )}
 
               {plan.tier === "rambo" && (
                 <Link
