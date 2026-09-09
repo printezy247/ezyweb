@@ -8,6 +8,13 @@
       "when": 1788939548219,
       "tag": "0000_spotty_demogoblin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788953927999,
+      "tag": "0001_fixed_amphibian",
+      "breakpoints": true
     }
   ]
 }

@@ -17,7 +17,7 @@ export default function Home() {
             Free trading tools for traders burned by subscriptions, scams, and opaque markets.
           </p>
           <p className="mx-auto mt-4 max-w-xl text-sm text-text-muted">
-            Telegram bots + web dashboards · Free live data · No paid subscriptions
+            Telegram bots + web dashboards · Free live data · Start free, upgrade when ready
           </p>
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
@@ -27,14 +27,12 @@ export default function Home() {
             >
               Explore PropRank
             </Link>
-            <a
-              href="https://t.me/"
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              href="/pricing"
               className="rounded-xl border border-surface-light bg-surface px-8 py-4 font-bold text-text transition hover:border-cyan hover:text-cyan"
             >
-              Telegram Bot
-            </a>
+              Pricing & Tiers
+            </Link>
           </div>
         </div>
       </section>
@@ -82,7 +80,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-surface-light px-6 py-12 text-center text-text-muted">
         <p className="gradient-text text-xl font-bold">printezy · ezyweb</p>
-        <p className="mt-2 text-sm">Built for traders. Free forever. No subscriptions.</p>
+        <p className="mt-2 text-sm">Built for traders. Start free, upgrade when ready.</p>
         <p className="mt-4 text-xs">Educational research only. Not financial advice.</p>
       </footer>
     </main>
