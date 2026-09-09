@@ -1,4 +1,4 @@
-import { Bot } from "grammy";
+import { Bot, Keyboard } from "grammy";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { propFirms, users, hfmIbVerifications } from "@/db/schema";
@@ -26,6 +26,19 @@ function isAdmin(ctx: any): boolean {
   return userId ? ADMIN_IDS.includes(userId) : false;
 }
 
+const FUTURISTIC_HEADER = "━━━━━━━━━━━━━━━━━━━━━━━━━";
+const FUTURISTIC_DIVIDER = "───────── ⚙ ─────────";
+
+function mainKeyboard() {
+  return new Keyboard()
+    .text("🏆 Top Firms").text("🔎 Search")
+    .row()
+    .text("⚔️ Compare").text("👤 My Tier")
+    .row()
+    .text("⚡ Upgrade").text("🔓 HFM")
+    .resized();
+}
+
 function getBot() {
   if (botInstance) return botInstance;
 
@@ -49,14 +62,16 @@ function getBot() {
     if (!firm.allowsEaBots) restrictions.push("❌ No EAs");
 
     return [
+      `━━━━━━━━━━━━━━━━━━━━━━━━━`,
       `💼 <b>${firm.name}</b>`,
       `${rankEmoji(firm.trustScore)} Trust score: <b>${firm.trustScore}/100</b>`,
-      "",
+      ``,
       `💰 Fee: <b>$${firm.challengeFeeUsd?.toLocaleString() ?? "—"}</b>`,
       `📊 Size: <b>$${firm.accountSizeUsd?.toLocaleString() ?? "—"}</b>`,
       `🎯 Payout: <b>${firm.payoutSplitPct ?? "—"}%</b>`,
       `📏 Daily DD: <b>${firm.maxDailyDrawdownPct ?? "—"}%</b>`,
       restrictions.length > 0 ? `⚠️ ${restrictions.join(", ")}` : "",
+      `━━━━━━━━━━━━━━━━━━━━━━━━━`,
     ]
       .filter(Boolean)
       .join("\n");
@@ -86,22 +101,25 @@ function getBot() {
     });
   }
 
-  // ===== Public commands =====
+  // ===== Slash commands =====
 
   bot.command("start", async (ctx) => {
     await ensureUser(ctx);
     await ctx.reply(
-      "👋 <b>Welcome to PropRank</b> — ScoutOps prop-firm directory.\n\n" +
-        "💼 <b>Commands</b>\n" +
-        "/top — top ranked prop firms\n" +
-        "/firm NAME — details for one firm\n" +
-        "/search TEXT — search firms\n" +
-        "/compare A vs B — compare two firms\n" +
-        "/upgrade — upgrade your tier\n" +
-        "/my_tier — your current tier\n" +
-        "/hfm_unlock — free Rambo via HFM IB\n\n" +
-        "🆓 Start free as a Scout, upgrade when ready.",
-      { parse_mode: "HTML" }
+      [
+        `━━━━━━━━━━━━━━━━━━━━━━━━━`,
+        `🚀 <b>EZYWEB — PropRank</b>`,
+        `ScoutOps Prop-Firm Directory`,
+        `━━━━━━━━━━━━━━━━━━━━━━━━━`,
+        ``,
+        `Use the <b>menu buttons</b> below to navigate.`,
+        `Or type a slash <code>/</code> to see all commands.`,
+        ``,
+        `🥾 Start free as a Scout`,
+        `⚡ Upgrade for full power`,
+        `🔓 Free Rambo via HFM IB`,
+      ].join("\n"),
+      { parse_mode: "HTML", reply_markup: mainKeyboard() }
     );
   });
 
@@ -111,14 +129,21 @@ function getBot() {
     const tier = (user.currentTier as TierId) || "scout";
     const compareLimit = getCompareLimit(tier);
     await ctx.reply(
-      `${tierBadge(tier)} <b>Your tier: ${TIER_NAMES[tier]}</b>\n\n` +
-        `🔍 Search: ${tierMeets(tier, "search") ? "✅" : "❌"}\n` +
-        `⚔️ Compare limit: ${compareLimit === 0 ? "❌" : compareLimit + " firms"}\n` +
-        `📊 Advanced filters: ${tierMeets(tier, "advanced_filters") ? "✅" : "❌"}\n` +
-        `📥 CSV export: ${tierMeets(tier, "csv_export") ? "✅" : "❌"}\n` +
-        `🔑 API access: ${tierMeets(tier, "api_access") ? "✅" : "❌"}\n\n` +
-        `Use /upgrade to level up, or /hfm_unlock for free Rambo.`,
-      { parse_mode: "HTML" }
+      [
+        `${FUTURISTIC_HEADER}`,
+        `${tierBadge(tier)} <b>Your Tier: ${TIER_NAMES[tier]}</b>`,
+        `${FUTURISTIC_HEADER}`,
+        ``,
+        `🔍 Search: ${tierMeets(tier, "search") ? "✅" : "❌"}`,
+        `⚔️ Compare limit: ${compareLimit === 0 ? "❌" : compareLimit + " firms"}`,
+        `📊 Advanced filters: ${tierMeets(tier, "advanced_filters") ? "✅" : "❌"}`,
+        `📥 CSV export: ${tierMeets(tier, "csv_export") ? "✅" : "❌"}`,
+        `🔑 API access: ${tierMeets(tier, "api_access") ? "✅" : "❌"}`,
+        ``,
+        `${FUTURISTIC_DIVIDER}`,
+        `Tap ⚡ <b>Upgrade</b> or 🔓 <b>HFM</b> to level up.`,
+      ].join("\n"),
+      { parse_mode: "HTML", reply_markup: mainKeyboard() }
     );
   });
 
@@ -132,9 +157,15 @@ function getBot() {
     keyboard.push([{ text: "🔓 Unlock FREE via HFM IB", callback_data: "hfm_unlock" }]);
 
     await ctx.reply(
-      "⚡ <b>Upgrade PropRank</b>\n\n" +
-        "Pay with <b>Telegram Stars</b>, <b>Stripe</b> (card), or <b>USDT</b>.\n\n" +
+      [
+        `${FUTURISTIC_HEADER}`,
+        `⚡ <b>Upgrade PropRank</b>`,
+        `${FUTURISTIC_HEADER}`,
+        ``,
+        `Pay with <b>Telegram Stars</b>, <b>Stripe</b> (card), or <b>USDT</b>.`,
+        ``,
         formatUpgradeOptions(),
+      ].join("\n"),
       {
         parse_mode: "HTML",
         reply_markup: { inline_keyboard: keyboard },
@@ -149,13 +180,21 @@ function getBot() {
     const args = ctx.match?.toString().trim();
     if (!args) {
       await ctx.reply(
-        "🔓 <b>Free Rambo via HFM IB</b>\n\n" +
-          "1. Open & activate an HFM account under our IB link:\n" +
-          `   🇲🇾 <a href="${process.env.HFM_MALAYSIA_URL || "https://www.hfmmalaysia.com/sv/en/?refid=30548341"}">hfmmalaysia.com</a>\n` +
-          `   🇮🇩 <a href="${process.env.HFM_INDONESIA_URL || process.env.HFM_MALAYSIA_URL || "https://www.hfmmalaysia.com/sv/en/?refid=30548341"}">hfmtrade-ind.com (VPN)</a>\n\n` +
-          "2. Then submit your HFM account ID:\n" +
-          "   <code>/hfm_unlock YOUR_HFM_ACCOUNT_ID</code>\n\n" +
-          "Admin will verify within 24 hours.",
+        [
+          `${FUTURISTIC_HEADER}`,
+          `🔓 <b>Free Rambo via HFM IB</b>`,
+          `${FUTURISTIC_HEADER}`,
+          ``,
+          `1. Open & activate an HFM account:`,
+          `   🇲🇾 <a href="${process.env.HFM_MALAYSIA_URL || "https://www.hfmmalaysia.com/sv/en/?refid=30548341"}">hfmmalaysia.com</a>`,
+          `   🇮🇩 <a href="${process.env.HFM_INDONESIA_URL || process.env.HFM_MALAYSIA_URL || "https://www.hfmmalaysia.com/sv/en/?refid=30548341"}">hfmtrade-ind.com (VPN)</a>`,
+          ``,
+          `2. Submit your HFM account ID:`,
+          `   <code>/hfm_unlock YOUR_HFM_ACCOUNT_ID</code>`,
+          ``,
+          `${FUTURISTIC_DIVIDER}`,
+          `Admin will verify within 24 hours.`,
+        ].join("\n"),
         {
           parse_mode: "HTML",
           reply_markup: {
@@ -177,14 +216,19 @@ function getBot() {
     });
 
     await ctx.reply(
-      "✅ <b>HFM verification request submitted</b>\n\n" +
-        `Account ID: <code>${hfmAccountId}</code>\n` +
-        "Status: <b>Pending review</b>\n\n" +
-        "Please send a screenshot of your activated HFM account if you have one. Admin will approve you within 24 hours.",
-      { parse_mode: "HTML" }
+      [
+        `${FUTURISTIC_HEADER}`,
+        `✅ <b>HFM Verification Submitted</b>`,
+        `${FUTURISTIC_HEADER}`,
+        ``,
+        `Account ID: <code>${hfmAccountId}</code>`,
+        `Status: <b>Pending review</b>`,
+        ``,
+        `Send a screenshot if you have one. Admin will approve within 24 hours.`,
+      ].join("\n"),
+      { parse_mode: "HTML", reply_markup: mainKeyboard() }
     );
 
-    // Notify admins
     for (const adminId of ADMIN_IDS) {
       try {
         await bot.api.sendMessage(
@@ -214,11 +258,16 @@ function getBot() {
       .limit(5);
 
     if (firms.length === 0) {
-      await ctx.reply("⚠️ No firms in the database yet.");
+      await ctx.reply("⚠️ No firms in the database yet.", { reply_markup: mainKeyboard() });
       return;
     }
 
-    const lines = ["🏆 <b>Top Prop Firms</b>\n"];
+    const lines = [
+      `${FUTURISTIC_HEADER}`,
+      `🏆 <b>Top Prop Firms</b>`,
+      `${FUTURISTIC_HEADER}`,
+      ``,
+    ];
     const keyboard: { text: string; callback_data: string }[][] = [];
 
     firms.forEach((f, i) => {
@@ -226,7 +275,7 @@ function getBot() {
         `${i + 1}. ${rankEmoji(f.trustScore)} <b>${f.name}</b> — Trust ${f.trustScore}/100\n` +
           `   Fee: $${f.challengeFeeUsd?.toLocaleString() ?? "—"}`
       );
-      keyboard.push([{ text: `${f.name} details`, callback_data: `firm:${f.slug}` }]);
+      keyboard.push([{ text: `📡 ${f.name}`, callback_data: `firm:${f.slug}` }]);
     });
 
     await ctx.reply(lines.join("\n"), {
@@ -238,7 +287,7 @@ function getBot() {
   bot.command("firm", async (ctx) => {
     const args = ctx.match;
     if (!args) {
-      await ctx.reply("Usage: <code>/firm ftmo</code>", { parse_mode: "HTML" });
+      await ctx.reply("Usage: <code>/firm ftmo</code>\nOr tap 🔎 Search from the menu.", { parse_mode: "HTML" });
       return;
     }
 
@@ -248,7 +297,7 @@ function getBot() {
 
     if (!firm) {
       await ctx.reply(
-        `❌ No firm found for '<b>${args}</b>'.\nTry <code>/search ${args}</code>`,
+        `❌ No firm found for '<b>${args}</b>'.\nTry 🔎 Search from the menu.`,
         { parse_mode: "HTML" }
       );
       return;
@@ -280,16 +329,19 @@ function getBot() {
     const tier = (user?.currentTier as TierId) || "scout";
     if (!tierMeets(tier, "search")) {
       await ctx.reply(
-        "🔒 Search requires <b>Ranger</b> tier or higher.\n\n" +
-          "Use /upgrade to unlock, or /hfm_unlock for free Rambo.",
-        { parse_mode: "HTML" }
+        [
+          `🔒 <b>Search requires Ranger tier</b>`,
+          ``,
+          `Use ⚡ Upgrade from the menu, or 🔓 HFM for free Rambo.`,
+        ].join("\n"),
+        { parse_mode: "HTML", reply_markup: mainKeyboard() }
       );
       return;
     }
 
     const args = ctx.match;
     if (!args) {
-      await ctx.reply("Usage: <code>/search funded</code>", { parse_mode: "HTML" });
+      await ctx.reply("Usage: <code>/search funded</code>\nOr tap 🔎 Search from the menu.", { parse_mode: "HTML" });
       return;
     }
 
@@ -305,8 +357,13 @@ function getBot() {
       return;
     }
 
-    const lines = [`🔎 <b>Results for '${args}'</b>\n`];
-    const keyboard = firms.map((f) => [{ text: `${f.name} details`, callback_data: `firm:${f.slug}` }]);
+    const lines = [
+      `${FUTURISTIC_HEADER}`,
+      `🔎 <b>Results for '${args}'</b>`,
+      `${FUTURISTIC_HEADER}`,
+      ``,
+    ];
+    const keyboard = firms.map((f) => [{ text: `📡 ${f.name}`, callback_data: `firm:${f.slug}` }]);
 
     firms.forEach((f) => {
       lines.push(`• <b>${f.name}</b> — Trust ${f.trustScore}/100`);
@@ -324,9 +381,12 @@ function getBot() {
     const limit = getCompareLimit(tier);
     if (limit === 0) {
       await ctx.reply(
-        "🔒 Compare requires <b>Ranger</b> tier or higher.\n\n" +
-          "Use /upgrade to unlock, or /hfm_unlock for free Rambo.",
-        { parse_mode: "HTML" }
+        [
+          `🔒 <b>Compare requires Ranger tier</b>`,
+          ``,
+          `Use ⚡ Upgrade from the menu, or 🔓 HFM for free Rambo.`,
+        ].join("\n"),
+        { parse_mode: "HTML", reply_markup: mainKeyboard() }
       );
       return;
     }
@@ -340,8 +400,7 @@ function getBot() {
     const names = args.toLowerCase().split(" vs ").map((s) => s.trim());
     if (names.length > limit + 1) {
       await ctx.reply(
-        `🔒 Your <b>${TIER_NAMES[tier]}</b> tier allows comparing up to <b>${limit}</b> firms at a time.\n` +
-          "Upgrade to compare more.",
+        `🔒 <b>${TIER_NAMES[tier]}</b> allows comparing up to <b>${limit}</b> firms.\nUpgrade to compare more.`,
         { parse_mode: "HTML" }
       );
       return;
@@ -364,8 +423,10 @@ function getBot() {
 
     await ctx.reply(
       [
+        `${FUTURISTIC_HEADER}`,
         `⚔️ <b>${a.name} vs ${b.name}</b>`,
-        "",
+        `${FUTURISTIC_HEADER}`,
+        ``,
         `Trust: ${a.trustScore} — ${b.trustScore}`,
         `Fee: $${a.challengeFeeUsd?.toLocaleString() ?? "—"} — $${b.challengeFeeUsd?.toLocaleString() ?? "—"}`,
         `Size: $${a.accountSizeUsd?.toLocaleString() ?? "—"} — $${b.accountSizeUsd?.toLocaleString() ?? "—"}`,
@@ -378,9 +439,182 @@ function getBot() {
         reply_markup: {
           inline_keyboard: [
             [
-              { text: `${a.name} details`, callback_data: `firm:${a.slug}` },
-              { text: `${b.name} details`, callback_data: `firm:${b.slug}` },
+              { text: `📡 ${a.name}`, callback_data: `firm:${a.slug}` },
+              { text: `📡 ${b.name}`, callback_data: `firm:${b.slug}` },
             ],
+          ],
+        },
+      }
+    );
+  });
+
+  // ===== Text button handlers (ReplyKeyboard) =====
+
+  bot.hears("🏆 Top Firms", async (ctx: any) => {
+    const firms = await db
+      .select()
+      .from(propFirms)
+      .where(eq(propFirms.isActive, true))
+      .orderBy(desc(propFirms.isSponsored), desc(propFirms.trustScore))
+      .limit(5);
+
+    if (firms.length === 0) {
+      await ctx.reply("⚠️ No firms in the database yet.", { reply_markup: mainKeyboard() });
+      return;
+    }
+
+    const lines = [
+      `${FUTURISTIC_HEADER}`,
+      `🏆 <b>Top Prop Firms</b>`,
+      `${FUTURISTIC_HEADER}`,
+      ``,
+    ];
+    const keyboard: { text: string; callback_data: string }[][] = [];
+
+    firms.forEach((f, i) => {
+      lines.push(
+        `${i + 1}. ${rankEmoji(f.trustScore)} <b>${f.name}</b> — Trust ${f.trustScore}/100\n` +
+          `   Fee: $${f.challengeFeeUsd?.toLocaleString() ?? "—"}`
+      );
+      keyboard.push([{ text: `📡 ${f.name}`, callback_data: `firm:${f.slug}` }]);
+    });
+
+    await ctx.reply(lines.join("\n"), {
+      parse_mode: "HTML",
+      reply_markup: { inline_keyboard: keyboard },
+    });
+  });
+
+  bot.hears("🔎 Search", async (ctx: any) => {
+    const user = await ensureUser(ctx);
+    const tier = (user?.currentTier as TierId) || "scout";
+    if (!tierMeets(tier, "search")) {
+      await ctx.reply(
+        [
+          `🔒 <b>Search requires Ranger tier</b>`,
+          ``,
+          `Use ⚡ Upgrade from the menu, or 🔓 HFM for free Rambo.`,
+        ].join("\n"),
+        { parse_mode: "HTML", reply_markup: mainKeyboard() }
+      );
+      return;
+    }
+    await ctx.reply(
+      [
+        `${FUTURISTIC_HEADER}`,
+        `🔎 <b>Search Firms</b>`,
+        `${FUTURISTIC_HEADER}`,
+        ``,
+        `Type a firm name to search.`,
+        `Example: <code>FTMO</code> or <code>Funded</code>`,
+      ].join("\n"),
+      { parse_mode: "HTML" }
+    );
+  });
+
+  bot.hears("⚔️ Compare", async (ctx: any) => {
+    const user = await ensureUser(ctx);
+    const tier = (user?.currentTier as TierId) || "scout";
+    const limit = getCompareLimit(tier);
+    if (limit === 0) {
+      await ctx.reply(
+        [
+          `🔒 <b>Compare requires Ranger tier</b>`,
+          ``,
+          `Use ⚡ Upgrade from the menu, or 🔓 HFM for free Rambo.`,
+        ].join("\n"),
+        { parse_mode: "HTML", reply_markup: mainKeyboard() }
+      );
+      return;
+    }
+    await ctx.reply(
+      [
+        `${FUTURISTIC_HEADER}`,
+        `⚔️ <b>Compare Firms</b>`,
+        `${FUTURISTIC_HEADER}`,
+        ``,
+        `Type two firm names separated by <code>vs</code>.`,
+        `Example: <code>FTMO vs FundedNext</code>`,
+      ].join("\n"),
+      { parse_mode: "HTML" }
+    );
+  });
+
+  bot.hears("👤 My Tier", async (ctx: any) => {
+    const user = await ensureUser(ctx);
+    if (!user) return;
+    const tier = (user.currentTier as TierId) || "scout";
+    const compareLimit = getCompareLimit(tier);
+    await ctx.reply(
+      [
+        `${FUTURISTIC_HEADER}`,
+        `${tierBadge(tier)} <b>Your Tier: ${TIER_NAMES[tier]}</b>`,
+        `${FUTURISTIC_HEADER}`,
+        ``,
+        `🔍 Search: ${tierMeets(tier, "search") ? "✅" : "❌"}`,
+        `⚔️ Compare limit: ${compareLimit === 0 ? "❌" : compareLimit + " firms"}`,
+        `📊 Advanced filters: ${tierMeets(tier, "advanced_filters") ? "✅" : "❌"}`,
+        `📥 CSV export: ${tierMeets(tier, "csv_export") ? "✅" : "❌"}`,
+        `🔑 API access: ${tierMeets(tier, "api_access") ? "✅" : "❌"}`,
+        ``,
+        `${FUTURISTIC_DIVIDER}`,
+        `Tap ⚡ <b>Upgrade</b> or 🔓 <b>HFM</b> to level up.`,
+      ].join("\n"),
+      { parse_mode: "HTML", reply_markup: mainKeyboard() }
+    );
+  });
+
+  bot.hears("⚡ Upgrade", async (ctx: any) => {
+    await ensureUser(ctx);
+    const keyboard: { text: string; callback_data: string }[][] = [];
+    PRICING.forEach((p) => {
+      keyboard.push([{ text: `${TIER_NAMES[p.tier]} — $${p.monthlyUsd}/mo`, callback_data: `upgrade:${p.tier}:monthly` }]);
+      keyboard.push([{ text: `${TIER_NAMES[p.tier]} — $${p.yearlyUsd}/yr`, callback_data: `upgrade:${p.tier}:yearly` }]);
+    });
+    keyboard.push([{ text: "🔓 Unlock FREE via HFM IB", callback_data: "hfm_unlock" }]);
+
+    await ctx.reply(
+      [
+        `${FUTURISTIC_HEADER}`,
+        `⚡ <b>Upgrade PropRank</b>`,
+        `${FUTURISTIC_HEADER}`,
+        ``,
+        `Pay with <b>Telegram Stars</b>, <b>Stripe</b> (card), or <b>USDT</b>.`,
+        ``,
+        formatUpgradeOptions(),
+      ].join("\n"),
+      {
+        parse_mode: "HTML",
+        reply_markup: { inline_keyboard: keyboard },
+      }
+    );
+  });
+
+  bot.hears("🔓 HFM", async (ctx: any) => {
+    const user = await ensureUser(ctx);
+    if (!user) return;
+    await ctx.reply(
+      [
+        `${FUTURISTIC_HEADER}`,
+        `🔓 <b>Free Rambo via HFM IB</b>`,
+        `${FUTURISTIC_HEADER}`,
+        ``,
+        `1. Open & activate an HFM account:`,
+        `   🇲🇾 <a href="${process.env.HFM_MALAYSIA_URL || "https://www.hfmmalaysia.com/sv/en/?refid=30548341"}">hfmmalaysia.com</a>`,
+        `   🇮🇩 <a href="${process.env.HFM_INDONESIA_URL || process.env.HFM_MALAYSIA_URL || "https://www.hfmmalaysia.com/sv/en/?refid=30548341"}">hfmtrade-ind.com (VPN)</a>`,
+        ``,
+        `2. Submit your HFM account ID:`,
+        `   <code>/hfm_unlock YOUR_HFM_ACCOUNT_ID</code>`,
+        ``,
+        `${FUTURISTIC_DIVIDER}`,
+        `Admin will verify within 24 hours.`,
+      ].join("\n"),
+      {
+        parse_mode: "HTML",
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: "🇲🇾 Open HFM Malaysia", url: process.env.HFM_MALAYSIA_URL || "https://www.hfmmalaysia.com/sv/en/?refid=30548341" }],
+            [{ text: "🇮🇩 Open HFM Indonesia", url: process.env.HFM_INDONESIA_URL || process.env.HFM_MALAYSIA_URL || "https://www.hfmmalaysia.com/sv/en/?refid=30548341" }],
           ],
         },
       }
@@ -393,7 +627,6 @@ function getBot() {
     const plan = PRICING.find((p) => p.tier === tier);
     if (!plan) return 0;
     const usd = interval === "yearly" ? plan.yearlyUsd : plan.monthlyUsd;
-    // Telegram Stars: roughly 1 Star = $0.013. Use a rounded number.
     return Math.ceil(usd / 0.013 / 10) * 10;
   }
 
@@ -424,7 +657,7 @@ function getBot() {
       const { userId, tier, interval } = meta;
       if (!userId || !tier) return;
 
-      const totalUsd = payment.total_amount * 0.013; // approximate
+      const totalUsd = payment.total_amount * 0.013;
       const expiresAt = new Date();
       if (interval === "yearly") expiresAt.setFullYear(expiresAt.getFullYear() + 1);
       else expiresAt.setMonth(expiresAt.getMonth() + 1);
@@ -457,14 +690,19 @@ function getBot() {
         .where(eq(users.id, userId));
 
       await ctx.reply(
-        `🎉 <b>Payment successful!</b>\n\n` +
-          `You are now ${TIER_NAMES[tierId]}.\n` +
+        [
+          `${FUTURISTIC_HEADER}`,
+          `🎉 <b>Payment Successful!</b>`,
+          `${FUTURISTIC_HEADER}`,
+          ``,
+          `You are now ${TIER_NAMES[tierId]}.`,
           `Expires: <code>${expiresAt.toDateString()}</code>`,
-        { parse_mode: "HTML" }
+        ].join("\n"),
+        { parse_mode: "HTML", reply_markup: mainKeyboard() }
       );
     } catch (e) {
       console.error("Stars payment handling error:", e);
-      await ctx.reply("⚠️ Payment received but activation failed. Contact support.");
+      await ctx.reply("⚠️ Payment received but activation failed. Contact support.", { reply_markup: mainKeyboard() });
     }
   });
 
@@ -578,7 +816,7 @@ function getBot() {
         return;
       }
       const [, telegramId, decision] = data.split(":");
-    const user = await db.query.users.findFirst({ where: eq(users.telegramId, telegramId) });
+      const user = await db.query.users.findFirst({ where: eq(users.telegramId, telegramId) });
       if (!user) {
         await ctx.answerCallbackQuery("User not found");
         return;
@@ -598,6 +836,17 @@ function getBot() {
 
     await ctx.answerCallbackQuery();
   });
+
+  // ===== Set bot commands menu =====
+  bot.api.setMyCommands([
+    { command: "start", description: "🚀 Welcome + menu" },
+    { command: "top", description: "🏆 Top ranked firms" },
+    { command: "search", description: "🔎 Search firms" },
+    { command: "compare", description: "⚔️ Compare two firms" },
+    { command: "upgrade", description: "⚡ Upgrade tier" },
+    { command: "my_tier", description: "👤 Check your tier" },
+    { command: "hfm_unlock", description: "🔓 Free Rambo via HFM IB" },
+  ]).catch(console.error);
 
   botInstance = bot;
   return bot;
