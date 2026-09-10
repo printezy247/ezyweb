@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 137 44" width="137" height="44" role="img" aria-label="Pricing">
+  <defs>
+    <linearGradient id="n" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#34d399" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#34d399" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="135" height="42" rx="21" fill="#0d1626" stroke="url(#n)" stroke-width="1.6"/>
+  <circle cx="24" cy="22" r="5" fill="#34d399">
+    <animate attributeName="opacity" values="1;0.35;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <text x="76" y="28" text-anchor="middle" font-family="Verdana,DejaVu Sans,sans-serif" font-size="15" font-weight="bold" fill="#e8f0ff" letter-spacing="1">PRICING</text>
+</svg>

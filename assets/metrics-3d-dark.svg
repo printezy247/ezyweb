@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 300" width="1280" height="300" role="img" aria-label="9 products by brand: AurumOps 3, ShieldOps 3, ScoutOps 2, RelayOps 1">
+  <defs>
+    <linearGradient id="bg3d" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#050a13"/><stop offset="100%" stop-color="#0d1b30"/>
+    </linearGradient>
+    <linearGradient id="barGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0b429"/><stop offset="100%" stop-color="#7a5410"/>
+    </linearGradient>
+    <linearGradient id="barCyan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#0b5a6b"/>
+    </linearGradient>
+    <linearGradient id="barPurple" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#4c3585"/>
+    </linearGradient>
+    <linearGradient id="barPink" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff4d6d"/><stop offset="100%" stop-color="#7a2030"/>
+    </linearGradient>
+    <pattern id="grid3d" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1b2b4a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="300" fill="url(#bg3d)"/>
+  <rect width="1280" height="300" fill="url(#grid3d)" opacity="0.4"/>
+
+  <text x="640" y="34" text-anchor="middle" font-family="Verdana,DejaVu Sans,sans-serif" font-size="17" font-weight="bold" fill="#8fa3c0" letter-spacing="4">9 PRODUCTS · 4 BRANDS · 1 LIVE</text>
+
+  <!-- isometric bars: 4 groups, heights ∝ product count -->
+  <g font-family="Verdana,DejaVu Sans,sans-serif" text-anchor="middle">
+    <!-- AurumOps x3 -->
+    <g>
+      <polygon points="230,210 330,180 430,210 330,240" fill="#1b2b4a"/>
+      <polygon points="230,210 330,180 330,90 230,120" fill="#7a5410"/>
+      <polygon points="330,180 430,210 430,120 330,90" fill="url(#barGold)"/>
+      <polygon points="230,120 330,90 430,120 330,150" fill="#f0b429" opacity="0.85"/>
+      <text x="330" y="72" font-size="34">🥇</text>
+      <text x="330" y="266" font-size="17" font-weight="bold" fill="#f0b429">AURUMOPS × 3</text>
+      <text x="330" y="286" font-size="12" fill="#8fa3c0">GoldPulse · SignalCheck · EventSentry</text>
+      <animate attributeName="opacity" from="0" to="1" begin="0.1s" dur="0.7s" fill="freeze"/>
+    </g>
+    <!-- ShieldOps x3 -->
+    <g>
+      <polygon points="490,210 590,180 690,210 590,240" fill="#1b2b4a"/>
+      <polygon points="490,210 590,180 590,90 490,120" fill="#0b5a6b"/>
+      <polygon points="590,180 690,210 690,120 590,90" fill="url(#barCyan)"/>
+      <polygon points="490,120 590,90 690,120 590,150" fill="#00e5ff" opacity="0.85"/>
+      <text x="590" y="72" font-size="34">🛡️</text>
+      <text x="590" y="266" font-size="17" font-weight="bold" fill="#00e5ff">SHIELDOPS × 3</text>
+      <text x="590" y="286" font-size="12" fill="#8fa3c0">ArmorCalc · TradeLog · PulseTrack</text>
+      <animate attributeName="opacity" from="0" to="1" begin="0.35s" dur="0.7s" fill="freeze"/>
+    </g>
+    <!-- ScoutOps x2 (one live) -->
+    <g>
+      <polygon points="750,210 850,180 950,210 850,240" fill="#1b2b4a"/>
+      <polygon points="750,210 850,180 850,120 750,140" fill="#4c3585"/>
+      <polygon points="850,180 950,210 950,140 850,120" fill="url(#barPurple)"/>
+      <polygon points="750,140 850,120 950,140 850,160" fill="#a78bfa" opacity="0.85"/>
+      <text x="850" y="102" font-size="34">🔭</text>
+      <circle cx="898" cy="86" r="9" fill="#34d399">
+        <animate attributeName="r" values="9;12;9" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <text x="850" y="266" font-size="17" font-weight="bold" fill="#a78bfa">SCOUTOPS × 2</text>
+      <text x="850" y="286" font-size="12" fill="#8fa3c0">PropRank ● live · TrendSpot</text>
+      <animate attributeName="opacity" from="0" to="1" begin="0.6s" dur="0.7s" fill="freeze"/>
+    </g>
+    <!-- RelayOps x1 -->
+    <g>
+      <polygon points="1010,210 1110,180 1210,210 1110,240" fill="#1b2b4a"/>
+      <polygon points="1010,210 1110,180 1110,150 1010,170" fill="#7a2030"/>
+      <polygon points="1110,180 1210,210 1210,170 1110,150" fill="url(#barPink)"/>
+      <polygon points="1010,170 1110,150 1210,170 1110,190" fill="#ff4d6d" opacity="0.85"/>
+      <text x="1110" y="132" font-size="34">📡</text>
+      <text x="1110" y="266" font-size="17" font-weight="bold" fill="#ff4d6d">RELAYOPS × 1</text>
+      <text x="1110" y="286" font-size="12" fill="#8fa3c0">AlertRelay</text>
+      <animate attributeName="opacity" from="0" to="1" begin="0.85s" dur="0.7s" fill="freeze"/>
+    </g>
+  </g>
+</svg>

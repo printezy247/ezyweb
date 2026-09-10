@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 340" width="1280" height="340" role="img" aria-label="Roadmap: PropRank live now, tiers next, then 8 products">
+  <defs>
+    <linearGradient id="bgR" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#050a13"/><stop offset="100%" stop-color="#0d1b30"/>
+    </linearGradient>
+    <linearGradient id="titleR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f0b429"><animate attributeName="stop-color" values="#f0b429;#00e5ff;#f0b429" dur="8s" repeatCount="indefinite"/></stop>
+      <stop offset="100%" stop-color="#00e5ff"><animate attributeName="stop-color" values="#00e5ff;#f0b429;#00e5ff" dur="8s" repeatCount="indefinite"/></stop>
+    </linearGradient>
+    <pattern id="gridR" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1b2b4a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="340" fill="url(#bgR)"/>
+  <rect width="1280" height="340" fill="url(#gridR)" opacity="0.4"/>
+  <text x="640" y="36" text-anchor="middle" font-family="Verdana,DejaVu Sans,sans-serif" font-size="17" font-weight="bold" fill="url(#titleR)" letter-spacing="4">ROADMAP · ONE PRODUCT LIVE, EIGHT TO GO</text>
+
+  <!-- orbit track -->
+  <g transform="translate(640,200)" fill="none">
+    <ellipse rx="520" ry="90" stroke="#f0b429" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="8 10">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="40s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse rx="380" ry="62" stroke="#00e5ff" stroke-opacity="0.3" stroke-width="1.5" stroke-dasharray="6 8">
+      <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="30s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <g font-family="Verdana,DejaVu Sans,sans-serif" text-anchor="middle">
+    <!-- NOW -->
+    <g>
+      <rect x="90" y="150" width="220" height="100" rx="16" fill="#0d1626" stroke="#34d399" stroke-width="2"/>
+      <circle cx="200" cy="150" r="10" fill="#34d399">
+        <animate attributeName="r" values="10;14;10" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <text x="200" y="184" font-size="15" font-weight="bold" fill="#34d399">NOW · PROPRANK LIVE</text>
+      <text x="200" y="206" font-size="12" fill="#c8d6ee">directory + bot + tiers</text>
+      <text x="200" y="226" font-size="12" fill="#c8d6ee">Stripe · USDT · HFM unlock</text>
+    </g>
+    <!-- NEXT -->
+    <g>
+      <rect x="400" y="150" width="220" height="100" rx="16" fill="#0d1626" stroke="#f0b429" stroke-width="2"/>
+      <circle cx="510" cy="150" r="8" fill="#f0b429" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+      <text x="510" y="184" font-size="15" font-weight="bold" fill="#f0b429">NEXT · GOLD TRIO</text>
+      <text x="510" y="206" font-size="12" fill="#c8d6ee">GoldPulse · SignalCheck</text>
+      <text x="510" y="226" font-size="12" fill="#c8d6ee">EventSentry</text>
+    </g>
+    <!-- THEN -->
+    <g>
+      <rect x="710" y="150" width="220" height="100" rx="16" fill="#0d1626" stroke="#00e5ff" stroke-width="2"/>
+      <circle cx="820" cy="150" r="8" fill="#00e5ff" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="820" y="184" font-size="15" font-weight="bold" fill="#00e5ff">THEN · SHIELD + SCOUT</text>
+      <text x="820" y="206" font-size="12" fill="#c8d6ee">ArmorCalc · TradeLog · PulseTrack</text>
+      <text x="820" y="226" font-size="12" fill="#c8d6ee">TrendSpot</text>
+    </g>
+    <!-- LATER -->
+    <g>
+      <rect x="970" y="150" width="220" height="100" rx="16" fill="#0d1626" stroke="#ff4d6d" stroke-width="2"/>
+      <circle cx="1080" cy="150" r="8" fill="#ff4d6d" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.3;0.9" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <text x="1080" y="184" font-size="15" font-weight="bold" fill="#ff4d6d">LATER · RELAY</text>
+      <text x="1080" y="206" font-size="12" fill="#c8d6ee">AlertRelay webhook</text>
+      <text x="1080" y="226" font-size="12" fill="#c8d6ee">TradingView → Telegram</text>
+    </g>
+    <!-- travelers -->
+    <g>
+      <circle r="6" fill="#f0b429">
+        <animateMotion dur="12s" repeatCount="indefinite" path="M 120,200 m 520,0 a 520,90 0 1,0 -1040,0 a 520,90 0 1,0 1040,0"/>
+      </circle>
+      <circle r="5" fill="#00e5ff">
+        <animateMotion dur="9s" repeatCount="indefinite" path="M 260,200 m 380,0 a 380,62 0 1,0 -760,0 a 380,62 0 1,0 760,0"/>
+      </circle>
+    </g>
+  </g>
+
+  <text x="640" y="300" text-anchor="middle" font-family="Verdana,DejaVu Sans,sans-serif" font-size="13" fill="#8fa3c0" letter-spacing="1">each product ships bot + web · free data only · affiliate + tiers fund the build</text>
+</svg>
